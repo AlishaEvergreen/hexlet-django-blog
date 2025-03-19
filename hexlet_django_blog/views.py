@@ -8,4 +8,5 @@ def index(request):
 
 
 def about(request):
-    return render(request, 'about.html')
+    context = {'tags': ['Python', 'Django', 'Web']}
+    return render(request, 'about.html', context)
