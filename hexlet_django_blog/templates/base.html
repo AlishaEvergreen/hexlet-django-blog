@@ -7,8 +7,8 @@
 <div id="sidebar">
     {% block sidebar %}
         <ul>
-            <li><a href="/">Главная</a></li>
-            <li><a href="/articles/">Статьи</a></li>
+            <li><a href="{% url 'root' %}">Главная</a></li>
+            <li><a href="{% url 'articles_index' %}">Статьи</a></li>
         </ul>
     {% endblock %}
 </div>
