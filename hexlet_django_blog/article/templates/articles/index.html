@@ -7,5 +7,8 @@
 </head>
 <body>
     <h1>App: {{ app_name }}</h1>
+    {% if article_id and tags %}
+        <p>Статья номер {{ article_id }}. Тег {{ tags }}</p>
+    {% endif %}
 </body>
 </html>
