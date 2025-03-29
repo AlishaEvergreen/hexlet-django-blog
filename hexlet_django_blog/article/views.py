@@ -1,9 +1,11 @@
 from django.views.generic.base import TemplateView
+from .models import Article
 
 
 class ArticleIndexView(TemplateView):
     template_name = "articles/index.html"
-    extra_context = {"app_name": "Articles"}
+    articles = Article.objects.all()
+    extra_context = {"app_name": "Articles", 'articles': articles}
 
 
 class ArticleDetailView(TemplateView):

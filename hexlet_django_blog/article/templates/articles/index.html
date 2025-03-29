@@ -10,5 +10,13 @@
     {% if article_id and tags %}
         <p>Статья номер {{ article_id }}. Тег {{ tags }}</p>
     {% endif %}
+    {% if articles %}
+        {% for article in articles %}
+            <ul>
+                <li>{{ article.title }}</li>
+                <li>{{ article.content }}</li>
+            </ul>
+        {% endfor %}
+    {% endif %}
 </body>
 </html>
