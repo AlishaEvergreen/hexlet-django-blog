@@ -20,10 +20,10 @@ from django.urls import path, include
 from hexlet_django_blog import views
 
 urlpatterns = [
-    path('', views.HomePageView.as_view(), name='root'),
-    path('about/', views.about),
+    path('', views.IndexView.as_view(), name='root'),
+    path('about/', views.AboutView.as_view()),
     path('articles/',
-         include('hexlet_django_blog.article.urls', namespace='articles'),
+         include('hexlet_django_blog.articles.urls'), name="articles",
          ),
     path('admin/', admin.site.urls),
 ]

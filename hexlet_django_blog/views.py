@@ -1,14 +1,19 @@
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
-from django.shortcuts import render
 from django.views.generic.base import TemplateView
 
 
-class HomePageView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        return redirect(reverse_lazy("article", args=["python", 42]))
+class IndexView(TemplateView):
+    template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['who'] = 'User'
+        return context
 
 
-def about(request):
-    context = {'tags': ['Python', 'Django', 'Web']}
-    return render(request, 'about.html', context)
+class AboutView(TemplateView):
+    template_name = 'about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tags'] = ['Python', 'Django', 'Web']
+        return context

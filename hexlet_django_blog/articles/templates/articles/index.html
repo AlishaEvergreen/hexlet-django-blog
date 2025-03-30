@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Статьи{% endblock %}
+
+{% block content %}
+    <h1>App: {{ app_name }}</h1>
+    {% if articles %}
+        {% for article in articles %}
+            <ul>
+                <li>ID: {{ article.id }}</li>
+                <li>TITLE: {{ article.title }}</li>
+                <li>CONTENT: {{ article.content }}</li>
+            </ul>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
