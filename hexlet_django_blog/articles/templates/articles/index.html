@@ -6,11 +6,8 @@
     <h1>App: {{ app_name }}</h1>
     {% if articles %}
         {% for article in articles %}
-            <ul>
-                <li>ID: {{ article.id }}</li>
-                <li>TITLE: {{ article.title }}</li>
-                <li>CONTENT: {{ article.content }}</li>
-            </ul>
+            <h2>{{ article.id }} TITLE: {{ article.title }}</h2>
+            <div>CONTENT: {{ article.content|slice:":200" }}</div>
         {% endfor %}
     {% endif %}
 {% endblock %}

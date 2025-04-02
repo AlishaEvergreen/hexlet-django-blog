@@ -1,18 +1,30 @@
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, UpdateView
+from django.views.generic import View, UpdateView
 from .models import Article
 from .forms import ArticleForm
 
 
-class IndexView(ListView):
-    model = Article
-    template_name = 'articles/index.html'
+class IndexView(View):
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['app_name'] = 'Articles'
-        context["articles"] = Article.objects.all()
-        return context
+    def get(self, request, *args, **kwargs):
+        articles = Article.objects.all()[:15]
+        return render(request, 'articles/index.html', context={
+            'app_name': 'Articles',
+            'articles': articles,
+        })
+
+# А можно и так:
+# class IndexView(ListView):
+#     model = Article
+#     template_name = 'articles/index.html'
+#     context_object_name = 'articles'
+#     queryset = Article.objects.all()[:15]
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['app_name'] = 'Articles'
+#         return context
 
 
 class ArticleUpdate(UpdateView):
