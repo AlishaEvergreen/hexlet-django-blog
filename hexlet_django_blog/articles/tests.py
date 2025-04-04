@@ -45,15 +45,18 @@ class ArticlesTest(TestCase):
             response, reverse("articles:detail", kwargs={'pk': article_id})
         )
 
-        # Делаем GET-запрос, чтобы проверить, что данные обновлены на странице
+        # Делаем GET-запрос, чтобы получить страницу с детальной информацией
         response = self.client.get(
             reverse('articles:detail', kwargs={'pk': article_id})
         )
-        self.assertContains(response, "Updated Title")
-        self.assertContains(response, "Updated Content")
 
-        # Повторно загружаем статью из базы по ID
-        updated_article = Article.objects.get(pk=article_id)
+        # Получаем статью из контекста шаблона
+        article_from_context = response.context['article']
 
-        # Проверяем контекст ответа
-        self.assertArticle(updated_article, update_data)
+        # Проверяем, что данные в контексте соответствуют обновлённым
+        self.assertEqual(article_from_context.title, update_data['title'])
+        self.assertEqual(article_from_context.content, update_data['content'])
+
+        # Также можно дополнительно проверить отображение текста в HTML
+        self.assertContains(response, update_data['title'])
+        self.assertContains(response, update_data['content'])
