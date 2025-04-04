@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import View, UpdateView
+from django.views.generic import View, UpdateView, DetailView
 from .models import Article
 from .forms import ArticleForm
 
@@ -31,4 +31,11 @@ class ArticleUpdate(UpdateView):
     model = Article
     form_class = ArticleForm
     template_name = 'articles/update.html'
-    success_url = reverse_lazy('articles:articles_index')
+
+    def get_success_url(self):
+        return reverse_lazy("articles:detail", kwargs={"pk": self.object.pk})
+
+
+class ArticleDetail(DetailView):
+    model = Article
+    template_name = 'articles/detail.html'
