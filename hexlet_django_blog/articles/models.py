@@ -9,3 +9,11 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ArticleComment(models.Model):
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE,
+        default=1,
+    )
+    content = models.CharField('content', max_length=10)

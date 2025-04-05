@@ -3,4 +3,20 @@
 {% block content %}
     <h1>{{ article.title }}</h1>
     <p>{{ article.content|slice:":200" }}</p>
+
+    <h2>Комментарии:</h2>
+    <ul>
+      {% for comment in comments %}
+        <li>{{ comment.content }}</li>
+      {% empty %}
+        <li>Комментариев пока нет.</li>
+      {% endfor %}
+    </ul>
+    
+    <h3>Оставить комментарий</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
 {% endblock %}
