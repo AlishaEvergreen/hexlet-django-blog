@@ -1,7 +1,9 @@
 # from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, UpdateView, DetailView
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import CreateView, ListView, UpdateView, DetailView
 from .models import Article
 from .forms import ArticleForm, ArticleCommentForm
 
@@ -29,6 +31,30 @@ class IndexView(ListView):
 #             'app_name': 'Articles',
 #             'articles': articles,
 #         })
+
+
+class ArticleCreate(SuccessMessageMixin, CreateView):
+    model = Article
+    form_class = ArticleForm
+    template_name = "articles/create.html"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(
+            self.request, f"Статья {self.object.title} была успешно создана"
+        )
+        return response
+
+    def get_success_url(self):
+        return reverse_lazy("articles:detail", kwargs={"pk": self.object.pk})
+
+
+# А можно и так:
+# class ArticleFormCreateView(View):
+
+#     def get(self, request, *args, **kwargs):
+#         form = ArticleForm()
+#         return render(request, 'articles/create.html', {'form': form})
 
 
 class ArticleUpdate(UpdateView):
