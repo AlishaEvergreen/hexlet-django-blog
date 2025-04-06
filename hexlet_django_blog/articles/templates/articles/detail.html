@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block header %}
+{% translate "Atricle" %}
+{% endblock %}
 
 {% block content %}
     <h1>{{ article.title }}</h1>
@@ -16,7 +22,9 @@
     <h3>Оставить комментарий</h3>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Сохранить</button>
+        {% bootstrap_form form show_label=False %}
+        {% buttons %}
+        <input class="btn btn-primary" type="submit" value="{% block button_value %}{% translate "Update" %}{% endblock %}">
+        {% endbuttons %}
     </form>
 {% endblock %}
