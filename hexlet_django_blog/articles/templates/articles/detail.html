@@ -24,7 +24,7 @@
         {% csrf_token %}
         {% bootstrap_form form show_label=False %}
         {% buttons %}
-        <input class="btn btn-primary" type="submit" value="{% block button_value %}{% translate "Update" %}{% endblock %}">
+        <input class="btn btn-primary" type="submit" value="{% translate 'Add' %}">
         {% endbuttons %}
     </form>
 {% endblock %}

@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% load bootstrap4 %}
+{% load i18n %}
 
 {% block content %}
 <form method="post">
   {% csrf_token %}
   {% bootstrap_form form %}
-  {% buttons %}
-    <input class="btn btn-primary" type="submit" value="{% block button_value %}{% endblock %}">
-  {% endbuttons %}
+  {% block button_value %}
+  <input class="btn btn-primary" type="submit" value="Save">
+  {% endblock %}
 </form>
 {% endblock %}
