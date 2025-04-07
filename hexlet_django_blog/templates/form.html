@@ -1,12 +1,26 @@
 {% extends "base.html" %}
 {% load bootstrap4 %}
+{% load i18n %}
+
+{% block header %}{% endblock %}
 
 {% block content %}
+{% if form.errors %}
+    <div>
+        <ul>
+        {% for error in form.errors %}
+            <li><strong>{{ error|escape }}</strong></li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
 <form method="post">
   {% csrf_token %}
   {% bootstrap_form form %}
-  {% block button_value %}
-  <input class="btn btn-primary" type="submit" value="Save">
-  {% endblock %}
+  <input type="submit" value="Сохранить">
 </form>
+
 {% endblock %}
+
+
