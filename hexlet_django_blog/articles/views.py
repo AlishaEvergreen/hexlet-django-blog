@@ -41,7 +41,7 @@ class ArticleCreate(SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         messages.success(
-            self.request, f"Статья {self.object.title} была успешно создана"
+            self.request, f"Статья '{self.object.title}' успешно создана"
         )
         return response
 
@@ -61,6 +61,13 @@ class ArticleUpdate(UpdateView):
     model = Article
     form_class = ArticleForm
     template_name = 'articles/update.html'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(
+            self.request, f"Статья '{self.object.title}' успешно обновлена"
+        )
+        return response
 
     def get_success_url(self):
         return reverse_lazy("articles:detail", kwargs={"pk": self.object.pk})

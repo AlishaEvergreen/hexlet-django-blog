@@ -2,25 +2,42 @@
 {% load bootstrap4 %}
 {% load i18n %}
 
-{% block header %}{% endblock %}
-
 {% block content %}
-{% if form.errors %}
-    <div>
-        <ul>
-        {% for error in form.errors %}
-            <li><strong>{{ error|escape }}</strong></li>
-        {% endfor %}
-        </ul>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">{% block header %}{% endblock %}</h4>
+                </div>
+                <div class="card-body">
+                    {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <ul class="mb-0">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% bootstrap_form form layout='vertical' %}
+                        <div class="text-right mt-4">
+                            <button type="submit" class="btn btn-success">
+                                {% translate "Save" %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-{% endif %}
-
-<form method="post">
-  {% csrf_token %}
-  {% bootstrap_form form %}
-  <input type="submit" value="Сохранить">
-</form>
-
+</div>
 {% endblock %}
-
-

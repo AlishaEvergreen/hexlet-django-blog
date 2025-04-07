@@ -2,29 +2,50 @@
 {% load bootstrap4 %}
 {% load i18n %}
 
-{% block header %}
-{% translate "Atricle" %}
-{% endblock %}
-
 {% block content %}
-    <h1>{{ article.title }}</h1>
-    <p>{{ article.content|slice:":200" }}</p>
+<div class="container mt-5">
+    <!-- Карточка статьи -->
+    <div class="card shadow-sm mb-5 position-relative">
+        <div class="card-body">
+            <!-- Кнопка редактирования -->
+            <a href="{% url 'articles:update' pk=article.pk %}" class="btn btn-sm btn-outline-secondary position-absolute" style="top: 1rem; right: 1rem;">
+                ✏️ {% translate 'Edit' %}
+            </a>
+            <h2 class="card-title">{{ article.title }}</h2>
+            <p class="card-text">{{ article.content }}</p>
+        </div>
+    </div>
 
-    <h2>Комментарии:</h2>
-    <ul>
-      {% for comment in comments %}
-        <li>{{ comment.content }}</li>
-      {% empty %}
-        <li>Комментариев пока нет.</li>
-      {% endfor %}
-    </ul>
-    
-    <h3>Оставить комментарий</h3>
-    <form method="post">
-        {% csrf_token %}
-        {% bootstrap_form form show_label=False %}
-        {% buttons %}
-        <input class="btn btn-primary" type="submit" value="{% translate 'Add' %}">
-        {% endbuttons %}
-    </form>
+    <!-- Комментарии -->
+    <div class="mb-4">
+        <h4 class="mb-3">Комментарии:</h4>
+        {% if comments %}
+            <ul class="list-group mb-3">
+                {% for comment in comments %}
+                    <li class="list-group-item">{{ comment.content }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-secondary" role="alert">
+                Комментариев пока нет.
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Форма добавления комментария -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Оставить комментарий</h5>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'articles:detail' pk=article.pk %}" method="post">
+                {% csrf_token %}
+                {% bootstrap_form form show_label=False %}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary">{% translate 'Add' %}</button>
+                {% endbuttons %}
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

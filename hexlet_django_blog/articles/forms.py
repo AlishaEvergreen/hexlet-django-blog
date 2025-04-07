@@ -6,6 +6,15 @@ class ArticleForm(ModelForm):
     class Meta:
         model = Article
         fields = ['title', 'content']
+        labels = {
+            'title': 'Заголовок',
+            'content': 'Содержание',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs.update({'placeholder': ''})
+        self.fields['content'].widget.attrs.update({'placeholder': ''})
 
 
 class ArticleCommentForm(ModelForm):

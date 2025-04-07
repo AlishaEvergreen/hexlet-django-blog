@@ -3,11 +3,64 @@
 {% block title %}Статьи{% endblock %}
 
 {% block content %}
-    <h1>App: {{ app_name }}</h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Список статей</h1>
+        <a href="{% url 'articles:articles_create' %}" class="btn btn-primary">Создать статью</a>
+    </div>
+
     {% if articles %}
-        <h1>Список статей</h1>
-        {% for article in articles %}
-            <h3>{{ article.id }} <a href="{% url 'articles:detail' pk=article.pk %}">{{ article.title }}</a></h3>
-        {% endfor %}
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <a href="{% url 'articles:detail' pk=article.pk %}" class="text-decoration-none text-dark">
+                        <div class="card h-100 shadow-sm article-card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ article.title }}</h5>
+                                <a href="{% url 'articles:update' pk=article.pk %}" class="btn btn-sm btn-outline-secondary mt-2">Редактировать</a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Статей пока нет.
+        </div>
     {% endif %}
+</div>
+
+<style>
+    .article-card {
+        transition: background-color 0.3s ease;
+    }
+
+    .article-card:hover {
+        background-color: #f8f9fa; /* светло-серый фон */
+    }
+
+    .article-card a.btn {
+        pointer-events: auto; /* делает кнопку "Редактировать" кликабельной */
+    }
+
+    /* Убираем действие перехода по клику внутри самой кнопки редактирования */
+    .article-card a.btn:hover {
+        background-color: #e2e6ea;
+    }
+
+    /* Убедимся, что карточка кликабельна полностью, но кнопка редактирования работает отдельно */
+    .article-card a.btn {
+        z-index: 1;
+        position: relative;
+    }
+
+    .article-card * {
+        pointer-events: none; /* отключаем клики по вложенным элементам */
+    }
+
+    .article-card, .article-card *:not(.btn):not(.btn *) {
+        pointer-events: auto;
+    }
+</style>
 {% endblock %}
