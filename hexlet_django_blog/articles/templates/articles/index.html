@@ -12,16 +12,38 @@
     {% if articles %}
         <div class="row">
             {% for article in articles %}
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <a href="{% url 'articles:detail' pk=article.pk %}" class="text-decoration-none text-dark">
-                        <div class="card h-100 shadow-sm article-card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ article.title }}</h5>
-                                <a href="{% url 'articles:update' pk=article.pk %}" class="btn btn-sm btn-outline-secondary mt-2">Редактировать</a>
-                            </div>
-                        </div>
-                    </a>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm article-card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'articles:detail' pk=article.pk %}" class="text-decoration-none text-dark">
+                                {{ article.title }}
+                            </a>
+                        </h5>
+                        <div class="d-flex align-items-center mt-3" style="gap: 6px;">
+                            <a href="{% url 'articles:detail' pk=article.pk %}" class="btn btn-sm btn-outline-secondary">
+                                Читать
+                            </a>
+                        
+                            <a href="{% url 'articles:update' article.pk %}" class="btn btn-sm btn-outline-secondary">
+                                Редактировать
+                            </a>
+                        
+                            <form 
+                                action="{% url 'articles:delete' article.pk %}"
+                                method="post"
+                                class="d-inline"
+                                onsubmit="return confirm('Вы уверены, что хотите удалить статью «{{ article.title }}»?')"
+                            >
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    Удалить
+                                </button>
+                            </form>
+                        </div>                                                                    
+                    </div>
                 </div>
+            </div>
             {% endfor %}
         </div>
     {% else %}
@@ -30,37 +52,4 @@
         </div>
     {% endif %}
 </div>
-
-<style>
-    .article-card {
-        transition: background-color 0.3s ease;
-    }
-
-    .article-card:hover {
-        background-color: #f8f9fa; /* светло-серый фон */
-    }
-
-    .article-card a.btn {
-        pointer-events: auto; /* делает кнопку "Редактировать" кликабельной */
-    }
-
-    /* Убираем действие перехода по клику внутри самой кнопки редактирования */
-    .article-card a.btn:hover {
-        background-color: #e2e6ea;
-    }
-
-    /* Убедимся, что карточка кликабельна полностью, но кнопка редактирования работает отдельно */
-    .article-card a.btn {
-        z-index: 1;
-        position: relative;
-    }
-
-    .article-card * {
-        pointer-events: none; /* отключаем клики по вложенным элементам */
-    }
-
-    .article-card, .article-card *:not(.btn):not(.btn *) {
-        pointer-events: auto;
-    }
-</style>
 {% endblock %}

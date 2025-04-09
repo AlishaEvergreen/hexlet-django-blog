@@ -3,7 +3,13 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.views.generic import (
+    CreateView,
+    ListView,
+    UpdateView,
+    DetailView,
+    DeleteView,
+)
 from .models import Article
 from .forms import ArticleForm, ArticleCommentForm
 
@@ -126,3 +132,26 @@ class ArticleDetailView(DetailView):
         context = self.get_context_data()
         context['form'] = form
         return self.render_to_response(context)
+
+
+class ArticleDelete(DeleteView):
+    model = Article
+    success_url = reverse_lazy("articles:articles_index")
+    template_name = "articles/delete.html"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(
+            self.request, f"Статья '{self.object.title}' успешно удалена"
+        )
+        return response
+
+# А можно и так:
+# class ArticleDelete(View):
+
+#     def post(self, request, *args, **kwargs):
+#         article_id = kwargs.get('pk')
+#         article = Article.objects.get(id=article_id)
+#         if article:
+#             article.delete()
+#         return redirect('articles:articles_index')
