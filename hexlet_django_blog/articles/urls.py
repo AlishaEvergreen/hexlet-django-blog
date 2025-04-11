@@ -6,7 +6,7 @@ app_name = "articles"
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
-    path('create/', views.ArticleCreate.as_view(), name='articles_create'),
+    path('create/', views.ArticleCreate.as_view(), name='create'),
     path(
         '<int:pk>/delete/',
         views.ArticleDelete.as_view(),
