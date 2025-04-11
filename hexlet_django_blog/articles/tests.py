@@ -1,5 +1,6 @@
-from django.urls import reverse
 from django.test import TestCase
+from django.urls import reverse
+
 from .models import Article
 
 
@@ -17,7 +18,7 @@ class ArticlesTest(TestCase):
         self.assertEqual(article.content, article_data["content"])
 
     def test_articles_list(self):
-        response = self.client.get(reverse("articles:articles_index"))
+        response = self.client.get(reverse("articles:index"))
         self.assertEqual(response.status_code, 200)
 
         # Проверяем наличие данных в контексте шаблона
